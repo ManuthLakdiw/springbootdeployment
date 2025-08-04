@@ -1,8 +1,13 @@
 package lk.ijse.springbootdeployment.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lk.ijse.springbootdeployment.dto.ApiResponse;
+import lk.ijse.springbootdeployment.dto.CustomerDto;
+import lk.ijse.springbootdeployment.entity.Customer;
+import lk.ijse.springbootdeployment.service.CustomerService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author manuthlakdiv
@@ -13,10 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/customer")
+@RequiredArgsConstructor
 public class CustomerController {
+
+    private final CustomerService customerService;
 
     @GetMapping
     public String getCustomer() {
         return "Customer";
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<ApiResponse<CustomerDto>> saveCustomer(@RequestBody CustomerDto customer) {
+      return new ResponseEntity<>(new ApiResponse<>(
+              200,
+              "Customer saved successfully",
+              customerService.saveCustomer(customer)
+      ), HttpStatus.CREATED);
+
     }
 }
