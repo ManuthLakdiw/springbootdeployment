@@ -36,6 +36,5 @@ public class CustomerController {
               "Customer saved successfully",
               customerService.saveCustomer(customer)
       ), HttpStatus.CREATED);
-
     }
 }
